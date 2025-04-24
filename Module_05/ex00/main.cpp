@@ -1,11 +1,5 @@
 #include "Bureaucrat.hpp"
 
-std::ostream& operator<<(std::ostream& stream, const Bureaucrat& b)
-{
-  stream << b.getName() << ", bureaucrat grade " << b.getGrade();
-  return stream;
-}
-
 int main(void)
 {
   const std::string name = "Lolek";

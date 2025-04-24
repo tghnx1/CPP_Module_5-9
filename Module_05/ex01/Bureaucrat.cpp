@@ -1,7 +1,17 @@
 #include "Bureaucrat.hpp"
 #include "Exceptions.hpp"
+#include "Form.hpp"
 
 //actions:
+
+void Bureaucrat::signForm(Form& f)
+{
+    if (this->grade > 150)
+        throw GradeTooLowException();
+    if (this->grade < 1)
+        throw GradeTooHighException();
+     f.beSigned(*this);
+}
 
 std::string    Bureaucrat::getName() const
 {
