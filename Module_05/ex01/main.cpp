@@ -19,4 +19,5 @@ int main(void)
   {
     std::cout << b.getName() <<" couldn’t sign " << f.getName() << " because " << g.what() << std::endl;
   }
+    std::cout << f << std::endl;
 }
