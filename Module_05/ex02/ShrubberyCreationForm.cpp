@@ -1,8 +1,4 @@
 #include "ShrubberyCreationForm.hpp"
-#include "Exceptions.hpp"
-#include "AForm.hpp"
-#include <fstream>
-
 
 //active
 
@@ -66,9 +62,10 @@ ShrubberyCreationForm::ShrubberyCreationForm(void) : AForm("ShrubberyCreationFor
     std::cout << "ShrubberyCreationForm Basic constructor called" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(const std::string name, const int gradeToSign, const int gradeToExecute, const std::string target)
-          : AForm(name, gradeToSign, gradeToExecute, target)
+ShrubberyCreationForm::ShrubberyCreationForm(const std::string target)
+          : AForm()
 {
+    this->setTarget(target);
     if (this->getGradeToSign() > 150 || this->getGradeToExecute() > 150)
         throw GradeTooLowException();
     if (this->getGradeToSign() < 1 || this->getGradeToExecute() < 1)
@@ -92,7 +89,7 @@ ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationF
     std::cout << "ShrubberyCreationForm copy assignment operator called" << std::endl;
     if (this != &newone)
     {
-        this->setIsSigned(newone.getIsSigned());
+        AForm::operator=(newone);
     }
     return (*this);
 }

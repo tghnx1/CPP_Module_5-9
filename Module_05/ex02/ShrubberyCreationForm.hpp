@@ -2,12 +2,15 @@
 
 #include <iostream>
 #include "Bureaucrat.hpp"
+#include "Exceptions.hpp"
+#include "AForm.hpp"
+#include <fstream>
 
 class ShrubberyCreationForm : public AForm
 {
     public:
         ShrubberyCreationForm();
-        ShrubberyCreationForm(const std::string name, const int gradeToSign, const int gradeToExecute, const std::string target);
+        ShrubberyCreationForm(const std::string target);
         ShrubberyCreationForm(const ShrubberyCreationForm&);
         ~ShrubberyCreationForm();
         ShrubberyCreationForm& operator=(const ShrubberyCreationForm&);
