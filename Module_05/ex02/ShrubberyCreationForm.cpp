@@ -12,7 +12,7 @@ void ShrubberyCreationForm::execute(Bureaucrat const & executor) const
 
   if (!this->checkRequirements(executor))
     return;
-  filename = this->target + "_shrubbery";
+  filename = this->getTarget() + "_shrubbery";
   std::ofstream file(filename);
 
   file <<
@@ -56,17 +56,18 @@ void ShrubberyCreationForm::execute(Bureaucrat const & executor) const
        "jgs \\\\/ ._\\//_/__/  ,\\_//__\\\\/.  \\_//__/_\n"
        << std::endl;
     file.close();
+    std::cout << executor.getName() << " executed " << this->getName() << std::endl;
 }
 
 // Ortodox Canonical ShrubberyCreationForm:
 
-ShrubberyCreationForm::ShrubberyCreationForm(void) : AForm("ShrubberyCreationForm", 145, 137), target("ShrubberyTarget")
+ShrubberyCreationForm::ShrubberyCreationForm(void) : AForm("ShrubberyCreationForm", 145, 137, "ShrubberyTarget")
 {
     std::cout << "ShrubberyCreationForm Basic constructor called" << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string name, const int gradeToSign, const int gradeToExecute, const std::string target)
-          : AForm(name, gradeToSign, gradeToExecute), target(target)
+          : AForm(name, gradeToSign, gradeToExecute, target)
 {
     if (this->getGradeToSign() > 150 || this->getGradeToExecute() > 150)
         throw GradeTooLowException();
@@ -76,7 +77,7 @@ ShrubberyCreationForm::ShrubberyCreationForm(const std::string name, const int g
 };
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& newone) :
-AForm(newone), target(newone.target)
+AForm(newone)
 {
     std::cout << "ShrubberyCreationForm copy constructor called" << std::endl;
 }

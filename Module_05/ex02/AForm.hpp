@@ -13,10 +13,11 @@ class AForm
     bool isSigned;
     const int gradeToSign;
     const int gradeToExecute;
+    std::string target;
 
   public:
     AForm();
-    AForm(const std::string name, const int gradeToSign, const int gradeToExecute);
+    AForm(const std::string name, const int gradeToSign, const int gradeToExecute, const std::string target);
     AForm(const AForm&);
     ~AForm();
     AForm& operator=(const AForm&);
@@ -24,6 +25,8 @@ class AForm
     std::string getName() const;
     bool getIsSigned() const;
     void setIsSigned(bool) ;
+    std::string getTarget() const;
+    void setTarget(const std::string&);
     int getGradeToSign() const;
     int getGradeToExecute() const;
     void  beSigned(Bureaucrat&);

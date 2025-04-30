@@ -5,7 +5,7 @@
 
 int  AForm::checkRequirements(Bureaucrat const & executor) const
 {
-  if (!this->isSigned)
+  if (this->getIsSigned() == false)
   {
       throw NotSigned();
       return 0;
@@ -56,16 +56,25 @@ int AForm::getGradeToExecute() const
   return this->gradeToExecute;
 };
 
+std::string AForm::getTarget() const
+{
+  return this->target;
+}
+
+void AForm::setTarget(std::string const& targ)
+{
+  this->target = targ;
+}
 
 // Ortodox Canonical AForm:
 
-AForm::AForm(void) : name("AForm"), isSigned(0), gradeToSign(100), gradeToExecute(100)
+AForm::AForm(void) : name("AForm"), isSigned(false), gradeToSign(100), gradeToExecute(100), target("AForm target")
 {
   std::cout << "AForm Basic constructor called" << std::endl;
 }
 
-AForm::AForm(const std::string name, const int gradeToSign, const int gradeToExecute)
-          : name(name), gradeToSign(gradeToSign), gradeToExecute(gradeToExecute)
+AForm::AForm(const std::string name, const int gradeToSign, const int gradeToExecute, const std::string target) :
+          name(name), gradeToSign(gradeToSign), gradeToExecute(gradeToExecute), target(target), isSigned(false)
 {
   if (this->gradeToSign > 150 || this->gradeToExecute > 150)
     throw GradeTooLowException();
@@ -74,7 +83,8 @@ AForm::AForm(const std::string name, const int gradeToSign, const int gradeToExe
   std::cout << "AForm constructor called" << std::endl;
 };
 
-AForm::AForm(const AForm& newone) : name(newone.name), isSigned(newone.isSigned), gradeToSign(newone.gradeToSign), gradeToExecute(newone.gradeToExecute)
+AForm::AForm(const AForm& newone) : name(newone.name), isSigned(newone.isSigned),
+      gradeToSign(newone.gradeToSign), gradeToExecute(newone.gradeToExecute), target(newone.target)
 {
   std::cout << "AForm copy constructor called" << std::endl;
 }
@@ -98,9 +108,13 @@ AForm &AForm::operator=(const AForm& newone)
 
 std::ostream& operator<<(std::ostream& stream, const AForm& f)
 {
-  stream << "name: " << f.getName() << " "
-         << "isSigned: " << f.getIsSigned() << " "
-         << "gradeToSign: " << f.getGradeToSign() << " "
-         << "gradeToExecute: " << f.getGradeToExecute();
+  stream << "name: " << f.getName() << ", "
+         << "isSigned: ";
+  if (f.getIsSigned() == true)
+    stream << "yes, ";
+  else
+    stream << "no, ";
+    stream  << "gradeToSign: " << f.getGradeToSign() << ", "
+            << "gradeToExecute: " << f.getGradeToExecute();
   return stream;
 }

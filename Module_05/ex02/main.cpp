@@ -7,8 +7,9 @@ int main(void)
   const std::string burName = "Lolek";
   const std::string formName2 = "Form000";
 
-  Bureaucrat b(burName, 100);
+  Bureaucrat b(burName, 138);
   ShrubberyCreationForm f;
+  std::cout << f.getIsSigned() << std::endl;
 
   try
   {
@@ -38,5 +39,15 @@ int main(void)
   {
     std::cout << b.getName() <<" couldn’t execute " << f.getName() << " because " << e.what() << std::endl;
   }
-  std::cout << b.getName() << " executed " << f.getName() << " successifully " << std::endl;
+
+  std::cout << f << std::endl;
+  std::cout << b << std::endl;
+  try
+  {
+    b.executeForm(f);
+  }
+  catch (const std::exception &e)
+  {
+    std::cout << b.getName() <<" couldn’t execute " << f.getName() << " because " << e.what() << std::endl;
+  }
 }

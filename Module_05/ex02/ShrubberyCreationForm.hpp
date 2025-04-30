@@ -5,12 +5,6 @@
 
 class ShrubberyCreationForm : public AForm
 {
-    private:
-        /*const std::string name;
-        bool isSigned;
-        const int gradeToSign;
-        const int gradeToExecute;*/
-        const std::string target;
     public:
         ShrubberyCreationForm();
         ShrubberyCreationForm(const std::string name, const int gradeToSign, const int gradeToExecute, const std::string target);

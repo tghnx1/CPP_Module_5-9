@@ -4,6 +4,11 @@
 
 //actions:
 
+void Bureaucrat::executeForm(AForm const & form)
+{
+    form.execute(*this);
+}
+
 void Bureaucrat::signForm(AForm& f)
 {
     if (this->grade > 150)
