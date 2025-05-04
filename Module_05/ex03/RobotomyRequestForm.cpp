@@ -15,6 +15,12 @@ void RobotomyRequestForm::execute(Bureaucrat const & executor) const
 
 // Ortodox Canonical RobotomyRequestForm:
 
+RobotomyRequestForm::RobotomyRequestForm(const std::string &name, const std::string &target)
+          : AForm(name, 72, 45, target)
+{
+    std::cout << "RobotomyRequestForm constructor called" << std::endl;
+};
+
 RobotomyRequestForm::RobotomyRequestForm(void) : AForm("RobotomyRequestForm", 72, 45, "RobotomyTarget")
 {
     std::cout << "RobotomyRequestForm Basic constructor called" << std::endl;

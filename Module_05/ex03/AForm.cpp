@@ -109,6 +109,7 @@ AForm &AForm::operator=(const AForm& newone)
 std::ostream& operator<<(std::ostream& stream, const AForm& f)
 {
   stream << "name: " << f.getName() << ", "
+         << "target: " << f.getTarget() << ", "
          << "isSigned: ";
   if (f.getIsSigned() == true)
     stream << "yes, ";

@@ -1,38 +1,75 @@
 #include "Intern.hpp"
 #include <string>
 #include "ShrubberyCreationForm.hpp"
+#include "Intern.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
 
-AForm* Intern::makeForm(std::string &name, std::string &target)
+
+AForm* Intern::shrubberyCreationForm(const std::string &name, const std::string &target)
 {
-    AForm* form = new ShrubberyCreationForm(name, target);
+  AForm* form = new ShrubberyCreationForm(name, target);
+  return form;
+}
+
+AForm* Intern::robotomyCreationForm(const std::string &name, const std::string &target)
+{
+  AForm* form = new RobotomyRequestForm(name, target);
+  return form;
+}
+
+AForm* Intern::presidentialCreationForm(const std::string &name, const std::string &target)
+{
+  AForm* form = new PresidentialPardonForm(name, target);
+  return form;
+}
+
+AForm* Intern::makeForm(const std::string &name, const std::string &target)
+{
     std::string commands[] = {"shrubbery request", "robotomy request", "presidential request"};
- // these functions should allocate and return the corresponding poiner to the form class. So make functions.
-    void (Harl::*functions[])() =
-{
-        &Harl::debug,
-        &Harl::info,
-        &Harl::warning,
-        &Harl::error
-      };
 
-    for (int i = 0; i < 4; i++)
+    AForm* (Intern::*functions[])(const std::string &name, const std::string &target) =
     {
-        if (level == commands[i])
-            (this->*functions[i])();
+        &Intern::shrubberyCreationForm,
+        &Intern::robotomyCreationForm,
+        &Intern::presidentialCreationForm
+    };
+
+    std::cout << name << std::endl;
+    for (int i = 0; i < 3; i++)
+    {
+      std::cout << commands[i] << std::endl;
+        if (name == commands[i])
+          {
+            std::cout << "Intern creates " << name << " form" << std::endl;
+            return (this->*functions[i])(name, target);
+          }
     }
+    std::cerr << "Error in makeForm()" << std::endl;
+    return NULL;
 }
 
-void (Harl::*functions[])() =
+//Canonical Ortodox Form:
+
+// Ortodox Canonical Intern:
+
+Intern::Intern()
 {
-    &Harl::debug,
-    &Harl::info,
-    &Harl::warning,
-    &Harl::error
-  };
+    std::cout << "Intern Basic constructor called" << std::endl;
+};
+
+Intern::Intern(const Intern& newone)
+{
+    std::cout << "Intern copy constructor called" << std::endl;
 }
 
-for (int i = 0; i < 4; i++)
+Intern::~Intern()
 {
-    if (level == commands[i])
-        (this->*functions[i])();
+    std::cout << "Intern Destructor called" << std::endl;
+}
+
+Intern &Intern::operator=(const Intern& newone)
+{
+    std::cout << "Intern copy assignment operator called" << std::endl;
+    return *this;
 }

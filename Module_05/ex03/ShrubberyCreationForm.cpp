@@ -65,10 +65,6 @@ ShrubberyCreationForm::ShrubberyCreationForm(void) : AForm("ShrubberyCreationFor
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string &name, const std::string &target)
           : AForm(name, 145, 137, target)
 {
-    /*if (this->getGradeToSign() > 150 || this->getGradeToExecute() > 150)
-        throw GradeTooLowException();
-    if (this->getGradeToSign() < 1 || this->getGradeToExecute() < 1)
-        throw GradeTooHighException();*/
     std::cout << "ShrubberyCreationForm constructor called" << std::endl;
 };
 

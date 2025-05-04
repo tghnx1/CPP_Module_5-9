@@ -11,6 +11,12 @@ void PresidentialPardonForm::execute(Bureaucrat const & executor) const
 
 // Ortodox Canonical PresidentialPardonForm:
 
+PresidentialPardonForm::PresidentialPardonForm(const std::string &name, const std::string &target)
+          : AForm(name, 25, 5, target)
+{
+    std::cout << "PresidentialPardonForm constructor called" << std::endl;
+};
+
 PresidentialPardonForm::PresidentialPardonForm(void) : AForm("PresidentialPardonForm", 25, 5, "PresidentialTarget")
 {
     std::cout << "PresidentialPardonForm Basic constructor called" << std::endl;
