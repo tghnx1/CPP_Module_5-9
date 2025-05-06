@@ -9,7 +9,5 @@ int main(int argc, char **argv)
   }
 
   std::string value = argv[1];
-  ScalarConverter converter;
-
-  converter.convert(value);
+  ScalarConverter::convert(value);
 }
