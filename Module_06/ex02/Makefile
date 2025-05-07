@@ -1,7 +1,7 @@
-NAME    = serializer
+NAME    = detector
 
 SRC     = main.cpp \
-		  Serializer.cpp
+		  Base.cpp
 
 OBJ     = $(SRC:.cpp=.o)
 CXX     = c++
