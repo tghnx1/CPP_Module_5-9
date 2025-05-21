@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
   }
   std::string input = argv[1];
-  bitoc.parseDataBase(input);
-  bitoc.printResults();
+  bitoc.parseDataBase();
+  bitoc.parseInput(input);
   return 0;
 }
