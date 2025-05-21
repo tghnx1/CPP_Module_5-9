@@ -1,7 +1,3 @@
-//
-// Created by Maksim Kokorev on 14.05.25.
-//
-
 #ifndef SPAN_HPP
 #define SPAN_HPP
 
