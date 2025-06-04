@@ -11,7 +11,7 @@ void    PmergeMe::ft_custom_input_create()
     int pair_size = 20;
 
     int extr[] = {25};
-    int extra_size = 3;
+    int extra_size = 1;
 
     for (int i = 0; i + 1 < pair_size; i += 2)
     {
@@ -79,26 +79,69 @@ void    PmergeMe::indexation()
 
 void    PmergeMe::binary_insert_range(int& b_last, int n)
 {
-  std::cout << b_last << std::endl;
+  std::cout <<"b last:" << b_last << std::endl;
   std::cout << n << std::endl;
-  std::cout << "Let's merge!" << std::endl;
+  std::cout << "Let's binary insert!" << std::endl;
+
+  //should make a binary insert from the last up to the first to the range
+    while (n)
+    {
+      int to_insert = -1;
+      if (pairs_sorted.size() >= b_last)
+          to_insert = (pairs_sorted[b_last - 1]).smaller;
+      else
+      {
+        to_insert = (extras.end() - 1)->value;
+        extras.erase(extras.end() - 1);
+      }
+      std::cout << "To insert: " << to_insert << std::endl;
+        // Binary search to find the correct position
+      std::vector<Main>::iterator pos = std::lower_bound(main.begin(), main.end(), to_insert);
+        // Insert at the position
+      main.insert(pos, to_insert);
+      n--;
+      b_last--;
+    }
+
+
+    //print
+    for (int i = 0; i < main.size(); ++i)
+    {
+        std::cout << main[i].value << " ";
+    }
+    std::cout << std::endl;
+}
+
+void    PmergeMe::main_create()
+{
+  //create main (a1, b1, a2 ... a_ind_max)
+  std::cout << "larger from the pair: " << pairs_sorted.begin()->larger << std::endl;
+  main.push_back(pairs_sorted.begin()->smaller);
+  main.push_back(pairs_sorted.begin()->larger);
+  for (int i = 1; i < pairs_sorted.size(); ++i)
+  {
+    main.push_back(pairs_sorted[i].larger);
+  }
+  for (int i = 0; i < main.size(); ++i)
+  {
+    std::cout << main[i].value << " ";
+  }
+  std::cout << std::endl;
 }
 
 void    PmergeMe::sort()
 {
   // indexation:
   this->indexation();
+  this->main_create();
   //detect the Jakobstahl number
-  //std::cout << "ind max: "<< b_ind_max << std::endl;
   int step = 1; int t_prev = 1; int t_cur = 3;
   while (t_prev <= b_ind_max )
   {
-    //std::cout << "t_cur: " << t_cur << std::endl;
     //detect the last b index to insert:
     int b_ind = t_cur;
     if (b_ind > b_ind_max)
         b_ind = b_ind_max;
-    //std::cout << "b ind: " << b_ind << std::endl;
     binary_insert_range(b_ind, b_ind - t_prev);
     //set t_prev and count the next t_cur
     t_prev = t_cur;
