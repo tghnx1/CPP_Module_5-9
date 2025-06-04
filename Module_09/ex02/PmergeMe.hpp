@@ -20,25 +20,53 @@ struct Extras
   Extras(int val) : value(val) {};
 };
 
-struct IntPair
-{
+struct Pair {
     int index;
 
-    int smaller;
-    int larger;
-    IntPair *pair_smaller;
-    IntPair *pair_larger;
+    // Leaf data
+    int smaller_int;
+    int larger_int;
 
-    IntPair(int a, int b) {
-        if (a < b) { smaller = a; larger = b; }
-        else       { smaller = b; larger = a; }
+    // Nested subpairs (NULL if this is a leaf)
+    Pair* pair_smaller;
+    Pair* pair_larger;
+
+    bool is_leaf;
+
+    // Leaf constructor
+    Pair(int a, int b)
+        : index(-1), pair_smaller(NULL), pair_larger(NULL), is_leaf(true) {
+        if (a < b) {
+            smaller_int = a;
+            larger_int = b;
+        } else {
+            smaller_int = b;
+            larger_int = a;
+        }
     }
-    IntPair(IntPair *p1, IntPair *p2)
-    {
-      smaller = -1;
-      larger = -1;
+
+    // Nested pair constructor
+    Pair(Pair* p1, Pair* p2)
+        : index(-1), smaller_int(-1), larger_int(-1), is_leaf(false) {
+        if (p1->get_larger() < p2->get_larger()) {
+            pair_smaller = p1;
+            pair_larger = p2;
+        } else {
+            pair_smaller = p2;
+            pair_larger = p1;
+        }
+    }
+
+    // Access the actual comparable value of a pair (recursively if needed)
+    int get_larger() const {
+        return is_leaf ? larger_int : pair_larger->get_larger();
+    }
+
+    int get_smaller() const {
+        return is_leaf ? smaller_int : pair_smaller->get_smaller();
     }
 };
+
 
 struct Main
 {
@@ -55,7 +83,7 @@ struct Main
 class PmergeMe
 {
     private:
-        std::vector<IntPair> pairs_sorted;
+        std::vector<Pair*> pairs_sorted;
         std::vector<Extras> extras;
         std::vector<Main> main;
         int b_ind_max;

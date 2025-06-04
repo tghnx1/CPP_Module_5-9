@@ -15,7 +15,8 @@ void    PmergeMe::ft_custom_input_create()
 
     for (int i = 0; i + 1 < pair_size; i += 2)
     {
-      IntPair pairr(pair[i], pair[i + 1]);
+      Pair *pairr = new Pair(pair[i], pair[i + 1]);
+      //IntPair pairr(pair[i], pair[i + 1]);
         this->pairs_sorted.push_back(pairr);
     }
     if (extra_size)
@@ -32,7 +33,7 @@ void    PmergeMe::ft_custom_output()
 {
     for (size_t i = 0; i < pairs_sorted.size(); ++i)
     {
-        std::cout << "(" << pairs_sorted[i].smaller << ", " << pairs_sorted[i].larger << "); ";
+        std::cout << "(" << pairs_sorted[i]->get_smaller() << ", " << pairs_sorted[i]->get_larger() << "); ";
     }
     std::cout << std::endl;
     if (extras.size())
@@ -50,7 +51,7 @@ void    PmergeMe::indexation()
     int ind = 0;
     while (ind < pairs_sorted.size())
     {
-        pairs_sorted[ind].index = ind + 1;
+        pairs_sorted[ind]->index = ind + 1;
         ind++;
     }
     if (extras.size())
@@ -66,10 +67,10 @@ void    PmergeMe::indexation()
       b_ind_max = (extras.end() - 1)->index;
     }
     else
-      b_ind_max = (pairs_sorted.end() - 1)->index;
+      b_ind_max = (*(pairs_sorted.end() - 1))->index;
     //check the indexes:
-    std::cout << "pairs 1-st index:" << pairs_sorted.begin()->index << std::endl;
-    std::cout << "pairs last index:" << (pairs_sorted.end() - 1)->index << std::endl;
+    std::cout << "pairs 1-st index:" << (*pairs_sorted.begin())->index << std::endl;
+    std::cout << "pairs last index:" << (*(pairs_sorted.end() - 1))->index << std::endl;
     if (extras.size())
     {
         std::cout << "extras 1-st index:" <<  extras.begin()->index << std::endl;
@@ -88,7 +89,7 @@ void    PmergeMe::binary_insert_range(int& b_last, int n)
     {
       int to_insert = -1;
       if (pairs_sorted.size() >= b_last)
-          to_insert = (pairs_sorted[b_last - 1]).smaller;
+          to_insert = (pairs_sorted[b_last - 1])->get_smaller();
       else
       {
         to_insert = (extras.end() - 1)->value;
@@ -115,12 +116,12 @@ void    PmergeMe::binary_insert_range(int& b_last, int n)
 void    PmergeMe::main_create()
 {
   //create main (a1, b1, a2 ... a_ind_max)
-  std::cout << "larger from the pair: " << pairs_sorted.begin()->larger << std::endl;
-  main.push_back(pairs_sorted.begin()->smaller);
-  main.push_back(pairs_sorted.begin()->larger);
+  std::cout << "larger from the pair: " << (*pairs_sorted.begin())->get_larger() << std::endl;
+  main.push_back((*pairs_sorted.begin())->get_smaller());
+  main.push_back((*pairs_sorted.begin())->get_larger());
   for (int i = 1; i < pairs_sorted.size(); ++i)
   {
-    main.push_back(pairs_sorted[i].larger);
+    main.push_back(pairs_sorted[i]->get_larger());
   }
   for (int i = 0; i < main.size(); ++i)
   {
