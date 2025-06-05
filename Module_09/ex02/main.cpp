@@ -1,48 +1,38 @@
 #include "PmergeMe.hpp"
 
-bool is_valid_positive_int(const char* str, int& out) {
-    errno = 0;
-    char* endptr = nullptr;
+// custom input: 1 2 4 6 7 8 3 12 14 15 9 19 21 23 5 27 24 30 22 35 25
 
-    long val = std::strtol(str, &endptr, 10); // Base 10
+void	print_pairs_recurs(std::vector<Pair*> &pairs)
+{
+	std::cout << "in recursion: sorted by larger (a_int): " << std::endl;
+	for (size_t i = 0; i < pairs.size(); ++i)
+	{
+    	std::cout << "Pair " << i << ": ";
+    	print_pair_recursive(pairs[i]);
+    	std::cout << std::endl;
+	}
+}
 
-    // Check: not empty, fully converted, no overflow, positive range
-    if (*str == '\0' || *endptr != '\0') return false;
-    if (errno == ERANGE || val > std::numeric_limits<int>::max() || val <= 0) return false;
+void print_pair_recursive(const Pair* pair) {
+    if (pair == nullptr) return;
 
-    out = static_cast<int>(val);
-    return true;
+    if (pair->is_leaf) {
+        std::cout << "(" << pair->b_int << ", " << pair->a_int << ")";
+    } else {
+        std::cout << "[";
+        print_pair_recursive(pair->b);
+        std::cout << " , ";
+        print_pair_recursive(pair->a);
+        std::cout << "]";
+    }
 }
 
 int main(int argc, char **argv)
 {
-	if (argc < 2)
-	{
-		std::cout << "No input" << std::endl;
-		return (1);
-	}
+	PmergeMe merge;
 
-	std::vector<int> numbers;
-
-    for (int i = 1; i < argc; ++i) {
-        int value;
-        if (!is_valid_positive_int(argv[i], value)) {
-            std::cerr << "Invalid input: \"" << argv[i] << "\" (must be positive integer within int range)" << std::endl;
-            return 1;
-        }
-        numbers.push_back(value);
-    }
-
-    std::cout << "Parsed positive integers: ";
-    for (int num : numbers) {
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
-
-	//PmergeMe merge;
-
-	//merge.ft_custom_input_create();
-	//merge.ft_custom_output();
-	//merge.sort();
+	merge.parse(argc, argv);
+	merge.get_parsed();
+	merge.sort();
 	return 0;
 }
