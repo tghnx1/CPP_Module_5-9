@@ -106,7 +106,7 @@ void    PmergeMe::binary_insert_range(int& b_last, int n)
         pend.erase(pend.end() - 1);
 		PairLargerCompare comp;
 		std::vector<Pair*>::iterator pos = std::lower_bound(main.begin(),
-				main.end(), to_insert, comp);
+		main.end(), to_insert, comp);
     //   }
       //std::cout << "To insert: " << to_insert << std::endl;
         // Binary search to find the correct position
@@ -116,6 +116,7 @@ void    PmergeMe::binary_insert_range(int& b_last, int n)
       n--;
       b_last--;
     }
+
 
     //print
     for (const Pair* p : main)
@@ -128,8 +129,6 @@ void    PmergeMe::binary_insert_range(int& b_last, int n)
 
 void    PmergeMe::main_create()
 {
-	std::cout << "an old main: " << std::endl;
-	print_pairs_recurs(main);
   //create main (a1, b1, a2 ... a_ind_max)
   std::cout << "larger from the pair: " << (*pairs.begin())->get_larger() << std::endl;
   main.push_back((*pairs.begin())->b);
@@ -138,8 +137,7 @@ void    PmergeMe::main_create()
   {
     main.push_back(pairs[i]->a);
   }
-  std::cout << "a new main: " << std::endl;
-	print_pairs_recurs(main);
+
 }
 
 void    PmergeMe::merge_insert()
@@ -160,7 +158,6 @@ void    PmergeMe::merge_insert()
         b_ind = b_ind_max;
 	std::cout << "b_ind: " << b_ind << std::endl;
     binary_insert_range(b_ind, b_ind - t_prev);
-
 	//set t_prev and count the next t_cur
     t_prev = t_cur;
     t_cur = (pow(2, step + 3) + pow(-1, step)) / 3;
@@ -196,12 +193,12 @@ void	PmergeMe::make_first_pairs()
 
 void PmergeMe::make_pairs_from_pairs(int lvl)
 {
-	//std::cout << "larger from the last pair: " << pairs.back()->get_larger() << std::endl;
-	if (pairs.size() == 1)
+		if (pairs.size() <= 1)
 	{
 		std::cout << "recursion lvl: " << lvl << std::endl;
 		return;
 	}
+	//std::cout << "larger from the last pair: " << pairs.back()->get_larger() << std::endl;
 	std::cout << "looool" << std::endl;
 	std::vector<Pair*> temp = pairs;
 	pairs.clear();
@@ -209,19 +206,24 @@ void PmergeMe::make_pairs_from_pairs(int lvl)
 		Pair *pair = new Pair(temp[i], temp[i + 1]);
         this->pairs.push_back(pair);
     }
+	// for (size_t i = 1; i < pairs.size(); ++i)
+    // 	pend.push_back(pairs[i]->b);
     if (temp.size() % 2 != 0) {
-    this->pend.push_back(temp.back());  // correct: push the last Pair*
-}
+    	this->pend.push_back(temp.back());  // correct: push the last Pair*
+	}
 	this->make_pairs_from_pairs(lvl + 1);
+
 }
 
 void	PmergeMe::sort()
 {
 	this->make_first_pairs();
 	this->make_pairs_from_pairs(0);
-	//std::cout << "lvl: " << lvl << std::endl;
 	print_pairs_recurs(pairs);
 	print_pairs_recurs(pend);
 	this->indexation();
 	this->merge_insert();
+	std::cout << "a new main: " << std::endl;
+	print_pairs_recurs(main);
+
 }
