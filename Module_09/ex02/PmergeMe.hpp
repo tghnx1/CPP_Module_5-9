@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <utility>
 #include <cmath>
+#include <sstream>
+#include <limits>
 
 struct Extras
 {
@@ -94,6 +96,7 @@ class PmergeMe
         void    indexation();
         void    binary_insert_range(int&, int);
         void    main_create();
+		void	make_pairs_recursion();
 };
 
 
