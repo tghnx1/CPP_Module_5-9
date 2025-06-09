@@ -160,6 +160,7 @@ void	PmergeMe::ft_binary_insert()
 	int step = 1; int t_prev = 1; int t_cur = 3; int b_ind_last = pend.size() + 1;
 	while (t_prev < b_ind_last)
 	{
+
         int b_last_ind_to_insert;
         if (b_ind_last < t_cur)
           	b_last_ind_to_insert = b_ind_last - 2;
