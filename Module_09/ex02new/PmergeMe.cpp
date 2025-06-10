@@ -103,7 +103,7 @@ void PmergeMe::ft_main_pend_generate(int &pair_size)
       else
       	pend.push_back(vector.begin() + pair_size * (i + 1) - 1);
     }
-	if (!pend.empty())
+	if (total_size % pairs_number)
 	{
 		std::vector<int>::iterator start = pend.back() + 1;
 		if (start < vector.end())
@@ -130,14 +130,14 @@ void PmergeMe::ft_main_pend_generate(int &pair_size)
 
 }
 
-void	PmergeMe::ft_binary_insert_range(int b_last_ind_to_insert, int &t_prev)
+void	PmergeMe::ft_binary_insert_range(int pend_last_ind_to_insert, int &t_prev)
 {
-	std::cout << "b_last_to_insert: " << b_last_ind_to_insert << " ";
-	std::cout << "start to mix from: " << *(pend[b_last_ind_to_insert]) << " "; std::cout << std::endl;
+	std::cout << "b_last_to_insert: " << pend_last_ind_to_insert << " ";
+	std::cout << "start to mix from: " << *(pend[pend_last_ind_to_insert]) << " "; std::cout << std::endl;
     std::vector<int>::iterator b_it;
-    while (b_last_ind_to_insert >= 0)
+    while (pend_last_ind_to_insert + 2 > t_prev)
     {
-    	b_it = pend[b_last_ind_to_insert];
+    	b_it = pend[pend_last_ind_to_insert];
     	// Binary search in main to find correct insert position by value
     	std::vector<std::vector<int>::iterator>::iterator insert_pos =
 			std::lower_bound(main.begin(), main.end(), b_it, DerefLess());
@@ -149,7 +149,7 @@ void	PmergeMe::ft_binary_insert_range(int b_last_ind_to_insert, int &t_prev)
     		std::cout << *main[i] << " ";
     	std::cout << std::endl;
         std::cout << "new main size: " << main.size() << std::endl;
-    	b_last_ind_to_insert--;
+    	pend_last_ind_to_insert--;
     }
 
 }
@@ -161,12 +161,12 @@ void	PmergeMe::ft_binary_insert()
 	while (t_prev < b_ind_last)
 	{
 
-        int b_last_ind_to_insert;
+        int pend_last_ind_to_insert;
         if (b_ind_last < t_cur)
-          	b_last_ind_to_insert = b_ind_last - 2;
+          	pend_last_ind_to_insert = b_ind_last - 2;
         else
-          b_last_ind_to_insert = t_cur - 2;
-		ft_binary_insert_range(b_last_ind_to_insert, t_prev);
+          pend_last_ind_to_insert = t_cur - 2;
+		ft_binary_insert_range(pend_last_ind_to_insert, t_prev);
 		//set t_prev and count the next t_cur
 		t_prev = t_cur;
 		t_cur = (pow(2, step + 3) + pow(-1, step)) / 3;
