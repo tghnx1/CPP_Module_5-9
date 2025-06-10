@@ -59,8 +59,6 @@ void	PmergeMe::ft_pairing(int &lvl)
     int pair_size = block_size / 2;
 	std::size_t total_size = vector.size();
 
-	std::cout << "Level " << lvl << " | Block size: " << block_size << " | Pair size: " << pair_size << std::endl;
-
 	for (std::size_t i = 0; i + block_size - 1 < total_size; i += block_size)
 	{
 		// Each block contains two pairs (4 values)
@@ -87,8 +85,6 @@ void PmergeMe::ft_main_pend_generate(int &pair_size)
   int total_size = vector.size();
   int block_size = pair_size * 2;
   int pairs_number = total_size / pair_size;
-  std::cout << "Pair size: " << pair_size << " | Block size: " << block_size
-            	<< " | Pairs number: " << pairs_number << std::endl;
   main.clear();
   pend.clear();
   extra.clear();
@@ -112,28 +108,10 @@ void PmergeMe::ft_main_pend_generate(int &pair_size)
 				extra.push_back(it);
 		}
 	}
-
-
-	std::cout << "Main: " << std::endl;
-  for (int i = 0; i < main.size(); ++i)
-    std::cout << *main[i] << " ";
-  std::cout << std::endl;
-	std::cout << "Pend: " << std::endl;
-	for (int i = 0; i < pend.size(); ++i)
-		std::cout << *pend[i] << " ";
-	std::cout << std::endl;
-
-	std::cout << "Extra: " << std::endl;
-	for (int i = 0; i < extra.size(); ++i)
-		std::cout << *extra[i] << " ";
-	std::cout << std::endl;
-
 }
 
 void	PmergeMe::ft_binary_insert_range(int pend_last_ind_to_insert, int &t_prev)
 {
-	std::cout << "b_last_to_insert: " << pend_last_ind_to_insert << " ";
-	std::cout << "start to mix from: " << *(pend[pend_last_ind_to_insert]) << " "; std::cout << std::endl;
     std::vector<int>::iterator b_it;
     while (pend_last_ind_to_insert + 2 > t_prev)
     {
@@ -141,14 +119,7 @@ void	PmergeMe::ft_binary_insert_range(int pend_last_ind_to_insert, int &t_prev)
     	// Binary search in main to find correct insert position by value
     	std::vector<std::vector<int>::iterator>::iterator insert_pos =
 			std::lower_bound(main.begin(), main.end(), b_it, DerefLess());
-
     	main.insert(insert_pos, b_it);
-
-    	std::cout << "new Main: " << std::endl;
-    	for (int i = 0; i < main.size(); ++i)
-    		std::cout << *main[i] << " ";
-    	std::cout << std::endl;
-        std::cout << "new main size: " << main.size() << std::endl;
     	pend_last_ind_to_insert--;
     }
 
@@ -176,8 +147,6 @@ void	PmergeMe::ft_binary_insert()
 
 void PmergeMe::ft_merge(int &pair_size)
 {
-	std::cout << "Pair size: " << pair_size << std::endl;
-
 	std::vector<int> temp;
 
 	for (std::size_t i = 0; i < main.size(); ++i)
@@ -195,11 +164,6 @@ void PmergeMe::ft_merge(int &pair_size)
 		temp.push_back(*extra[i]);
 
 	vector = temp;
-
-	std::cout << "New vector after merge: ";
-	for (std::size_t i = 0; i < vector.size(); ++i)
-		std::cout << vector[i] << " ";
-	std::cout << std::endl;
 }
 
 void	PmergeMe::ft_merge_insert(int lvl)
@@ -209,11 +173,10 @@ void	PmergeMe::ft_merge_insert(int lvl)
 	while (lvl)
     {
 		pair_size = (1 << (lvl - 1));
-          std::cout << "lvl " << lvl << std::endl;
-	 	  ft_main_pend_generate(pair_size);
-          ft_binary_insert();
-          ft_merge(pair_size);
-          lvl--;
+		ft_main_pend_generate(pair_size);
+		ft_binary_insert();
+		ft_merge(pair_size);
+		lvl--;
     }
 }
 
@@ -221,9 +184,9 @@ void	PmergeMe::sort()
 {
     int lvl = 1;
     ft_pairing(lvl);
-	std::cout << "vector new: " << std::endl;
+    ft_merge_insert(lvl);
+
 	for (int i = 0; i < vector.size(); ++i)
 		std::cout << vector[i] << " ";
 	std::cout << std::endl;
-    ft_merge_insert(lvl);
 }

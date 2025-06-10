@@ -9,7 +9,6 @@ int main(int argc, char **argv)
 	PmergeMe merge;
 
 	merge.parse(argc, argv);
-	merge.get_parsed();
 	merge.sort();
 	return 0;
 }
