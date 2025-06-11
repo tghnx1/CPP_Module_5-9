@@ -18,22 +18,28 @@ class PmergeMe
 {
     private:
 		std::vector<int> vector;
-		std::vector<std::vector<int>::iterator> main;
-  		std::vector<std::vector<int>::iterator> pend;
-        std::vector<std::vector<int>::iterator> extra;
+		std::deque<int>	 deque;
     public:
       //parsing:
 		void	parse(int &agrc, char **argv);
 		bool	is_valid_positive_int(const char* str, int& out);
-		void	get_parsed();
-
-		void    sort();
+		void    vector_sort();
+		void	get_vector();
+		void	get_deque();
         void    ft_pairing(int&);
         void    ft_merge_insert(int);
-        void   ft_main_pend_generate(int&);
-		void   ft_binary_insert();
-	    void ft_binary_insert_range(int, int&);
-        void   ft_merge(int&);
+		void    ft_main_pend_generate(int &pair_size,
+						std::vector<std::vector<int>::iterator> &,
+						std::vector<std::vector<int>::iterator> &,
+						std::vector<std::vector<int>::iterator> &);
+		void    ft_binary_insert(std::vector<std::vector<int>::iterator> &pend,
+						std::vector<std::vector<int>::iterator> &main);
+	    void    ft_binary_insert_range(int, int&, std::vector<std::vector<int>::iterator>&,
+						std::vector<std::vector<int>::iterator>&);
+		void    ft_merge(int &pair_size, std::vector<std::vector<int>::iterator> &main,
+						std::vector<std::vector<int>::iterator> &extra);
+
+		//Othodox canonical
 };
 
 struct DerefLess {

@@ -1,8 +1,13 @@
-//
-// Created by Maksim Kokorev on 03.06.25.
-//
-
 #include "PmergeMe.hpp"
+
+//Othodox canonical
+
+
+
+
+
+
+
 
 //parser
 bool PmergeMe::is_valid_positive_int(const char* str, int& out) {
@@ -19,9 +24,8 @@ bool PmergeMe::is_valid_positive_int(const char* str, int& out) {
     return true;
 }
 
-void	PmergeMe::get_parsed()
+void	PmergeMe::get_vector()
 {
-	std::cout << "parsed: ";
 	for (int i = 0; i < vector.size(); i++)
 	{
 		std::cout << vector[i] << " ";
@@ -43,6 +47,7 @@ void	PmergeMe::parse(int &argc, char **argv)
             std::cerr << "Invalid input: \"" << argv[i] << "\" (must be positive integer within int range)" << std::endl;
             exit(1);
         }
+    	deque.push_back(value);
         vector.push_back(value);
     }
 }
@@ -80,14 +85,15 @@ void	PmergeMe::ft_pairing(int &lvl)
     ft_pairing(++lvl);
 }
 
-void PmergeMe::ft_main_pend_generate(int &pair_size)
+void PmergeMe::ft_main_pend_generate(int &pair_size,
+	std::vector<std::vector<int>::iterator> &main,
+	std::vector<std::vector<int>::iterator> &pend,
+	std::vector<std::vector<int>::iterator> &extra)
 {
   int total_size = vector.size();
   int block_size = pair_size * 2;
   int pairs_number = total_size / pair_size;
-  main.clear();
-  pend.clear();
-  extra.clear();
+
 
   //main.push_back(b1);
   main.push_back(vector.begin() + pair_size - 1);
@@ -110,7 +116,9 @@ void PmergeMe::ft_main_pend_generate(int &pair_size)
 	}
 }
 
-void	PmergeMe::ft_binary_insert_range(int pend_last_ind_to_insert, int &t_prev)
+void	PmergeMe::ft_binary_insert_range(int pend_last_ind_to_insert, int &t_prev,
+		std::vector<std::vector<int>::iterator> &main,
+		std::vector<std::vector<int>::iterator> &pend)
 {
     std::vector<int>::iterator b_it;
     while (pend_last_ind_to_insert + 2 > t_prev)
@@ -125,7 +133,8 @@ void	PmergeMe::ft_binary_insert_range(int pend_last_ind_to_insert, int &t_prev)
 
 }
 
-void	PmergeMe::ft_binary_insert()
+void	PmergeMe::ft_binary_insert(std::vector<std::vector<int>::iterator> &pend,
+									std::vector<std::vector<int>::iterator> &main)
 {
 	//detect the Jakobstahl number
 	int step = 1; int t_prev = 1; int t_cur = 3; int b_ind_last = pend.size() + 1;
@@ -137,7 +146,7 @@ void	PmergeMe::ft_binary_insert()
           	pend_last_ind_to_insert = b_ind_last - 2;
         else
           pend_last_ind_to_insert = t_cur - 2;
-		ft_binary_insert_range(pend_last_ind_to_insert, t_prev);
+		ft_binary_insert_range(pend_last_ind_to_insert, t_prev, main, pend);
 		//set t_prev and count the next t_cur
 		t_prev = t_cur;
 		t_cur = (pow(2, step + 3) + pow(-1, step)) / 3;
@@ -145,7 +154,8 @@ void	PmergeMe::ft_binary_insert()
 	}
 }
 
-void PmergeMe::ft_merge(int &pair_size)
+void PmergeMe::ft_merge(int &pair_size, std::vector<std::vector<int>::iterator> &main,
+									std::vector<std::vector<int>::iterator> &extra)
 {
 	std::vector<int> temp;
 
@@ -166,27 +176,28 @@ void PmergeMe::ft_merge(int &pair_size)
 	vector = temp;
 }
 
+
 void	PmergeMe::ft_merge_insert(int lvl)
 {
-	std::vector<std::vector<int>::iterator> iterators;
 	int pair_size;
 	while (lvl)
     {
+		std::vector<std::vector<int>::iterator> main;
+		std::vector<std::vector<int>::iterator> pend;
+		std::vector<std::vector<int>::iterator> extra;
 		pair_size = (1 << (lvl - 1));
-		ft_main_pend_generate(pair_size);
-		ft_binary_insert();
-		ft_merge(pair_size);
+		ft_main_pend_generate(pair_size, main, pend, extra);
+		ft_binary_insert(pend, main);
+		ft_merge(pair_size, main, extra);
 		lvl--;
     }
 }
 
-void	PmergeMe::sort()
+void	PmergeMe::vector_sort()
 {
     int lvl = 1;
     ft_pairing(lvl);
     ft_merge_insert(lvl);
-
-	for (int i = 0; i < vector.size(); ++i)
-		std::cout << vector[i] << " ";
-	std::cout << std::endl;
 }
+
+
