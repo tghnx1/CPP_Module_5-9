@@ -40,6 +40,11 @@ void	PmergeMe::parse(int &argc, char **argv)
 		std::cout << "No input" << std::endl;
 		exit(1);
 	}
+	if (argc < 3)
+	{
+		std::cerr << "Error: At least two numbers are required." << std::endl;
+		exit(1);
+	}
 
     for (int i = 1; i < argc; ++i) {
         int value;
@@ -50,6 +55,11 @@ void	PmergeMe::parse(int &argc, char **argv)
     	deque.push_back(value);
         vector.push_back(value);
     }
+	if (std::is_sorted(vector.begin(),vector.end()))
+	{
+		std::cerr << "Error: Input is already sorted." << std::endl;
+		exit(1);
+	}
 }
 
 void	PmergeMe::ft_pairing(int &lvl)
@@ -58,7 +68,10 @@ void	PmergeMe::ft_pairing(int &lvl)
 
     if (block_size > vector.size())
     {
- 		lvl = lvl - 2;
+		if (vector.size() <= 3)
+			lvl--;
+		else
+ 			lvl -= 2;
     	return ;
     }
     int pair_size = block_size / 2;
@@ -158,7 +171,8 @@ void PmergeMe::ft_merge(int &pair_size, std::vector<std::vector<int>::iterator> 
 									std::vector<std::vector<int>::iterator> &extra)
 {
 	std::vector<int> temp;
-
+	for (int i = 0; i < vector.size(); i++)
+		std::cout << "vector new :" << vector[i] <<std::endl;
 	for (std::size_t i = 0; i < main.size(); ++i)
 	{
 		// main[i] points to aᵢ — the last element of the pair
@@ -174,6 +188,8 @@ void PmergeMe::ft_merge(int &pair_size, std::vector<std::vector<int>::iterator> 
 		temp.push_back(*extra[i]);
 
 	vector = temp;
+
+
 }
 
 

@@ -13,6 +13,7 @@
 #include <cmath>
 #include <sstream>
 #include <limits>
+#include <deque>
 
 class PmergeMe
 {

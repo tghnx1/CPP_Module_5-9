@@ -19,7 +19,7 @@ int Span::shortestSpan()
   std::vector<int> sorted = v;
   std::sort(sorted.begin(), sorted.end());
   int shortestSpan = INT_MAX;
-  for (int i = 0; i < sorted.size() - 1; i++)
+  for (unsigned int i = 0; i < sorted.size() - 1; i++)
   {
     if (sorted[i + 1] - sorted[i] < shortestSpan)
       shortestSpan = sorted[i + 1] - sorted[i];
@@ -33,7 +33,7 @@ int Span::longestSpan()
   int biggest = 0;
 
   if (v.size() < 2)
-    throw std::logic_error("Span::shortestSpan: error in adding the value");
+    throw std::logic_error("Span::longestSpan: error in adding the value");
   smallest = *(std::min_element(v.begin(), v.end()));
   biggest = *(std::max_element(v.begin(), v.end()));
   return biggest - smallest;

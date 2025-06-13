@@ -2,6 +2,7 @@
 #define EASYFIND_TPP
 
 #include <algorithm>
+#include <iostream>
 
 
 template <typename T>
