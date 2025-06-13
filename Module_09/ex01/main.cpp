@@ -35,7 +35,7 @@ int main(int argc, const char * argv[])
   std::string input = argv[1];
   RPN r(input);
   r.evaluate();
-  //runTests();
+  runTests();
 
   return 0;
 }
