@@ -1,14 +1,5 @@
 #include "PmergeMe.hpp"
 
-//Othodox canonical
-
-
-
-
-
-
-
-
 //parser
 bool PmergeMe::is_valid_positive_int(const char* str, int& out) {
     errno = 0;
@@ -24,13 +15,19 @@ bool PmergeMe::is_valid_positive_int(const char* str, int& out) {
     return true;
 }
 
-void	PmergeMe::get_vector()
+std::vector<int>	PmergeMe::get_vector()
 {
 	for (int i = 0; i < vector.size(); i++)
 	{
 		std::cout << vector[i] << " ";
 	}
 	std::cout << std::endl;
+	return vector;
+}
+
+std::deque<int>	PmergeMe::get_deque()
+{
+	return deque;
 }
 
 void	PmergeMe::parse(int &argc, char **argv)
@@ -125,7 +122,7 @@ void PmergeMe::ft_main_pend_generate(Container& container, int &pair_size,
 		typename Container::iterator start = pend.back() + 1;
 		if (start < container.end())
 		{
-			for (std::vector<int>::iterator it = start; it != container.end(); ++it)
+			for (typename Container::iterator it = start; it != container.end(); ++it)
 				extra.push_back(it);
 		}
 	}
@@ -142,7 +139,7 @@ void	PmergeMe::ft_binary_insert_range(int pend_last_ind_to_insert, int &t_prev,
     	b_it = pend[pend_last_ind_to_insert];
     	// Binary search in main to find correct insert position by value
     	typename std::vector<typename Container::iterator>::iterator insert_pos =
-			std::lower_bound(main.begin(), main.end(), b_it, DerefLess());
+			std::lower_bound(main.begin(), main.end(), b_it, DerefLess<Container>());
     	main.insert(insert_pos, b_it);
     	pend_last_ind_to_insert--;
     }
@@ -163,7 +160,7 @@ void	PmergeMe::ft_binary_insert(std::vector<typename Container::iterator> &pend,
           	pend_last_ind_to_insert = b_ind_last - 2;
         else
           pend_last_ind_to_insert = t_cur - 2;
-		ft_binary_insert_range(pend_last_ind_to_insert, t_prev, main, pend);
+		ft_binary_insert_range<Container>(pend_last_ind_to_insert, t_prev, main, pend);
 		//set t_prev and count the next t_cur
 		t_prev = t_cur;
 		t_cur = (pow(2, step + 3) + pow(-1, step)) / 3;
@@ -209,7 +206,7 @@ void	PmergeMe::ft_merge_insert(int lvl, Container &container)
 		pair_size = (1 << (lvl - 1));
 		ft_main_pend_generate(container, pair_size, main, pend, extra);
 		ft_binary_insert<Container>(pend, main);
-		ft_merge<Container>(pair_size, container, main, extra);
+		ft_merge(pair_size, container, main, extra);
 		lvl--;
     }
 }
@@ -229,3 +226,12 @@ void	PmergeMe::deque_sort()
 }
 
 
+//Othodox canonical
+
+PmergeMe PmergeMe::operator=(const PmergeMe &other) {
+			if (this != &other) {
+				vector = other.vector;
+				deque = other.deque;
+			}
+			return *this;
+		}

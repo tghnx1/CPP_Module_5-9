@@ -26,7 +26,8 @@ class PmergeMe
 		bool		is_valid_positive_int(const char* str, int& out);
 		void		vector_sort();
 		void		deque_sort();
-		void		get_vector();
+		std::vector<int>	get_vector();
+		std::deque<int>	get_deque();
 		template	<typename Container>
         void		ft_pairing(int &lvl, Container &container);
 		template	<typename Container>
@@ -44,14 +45,19 @@ class PmergeMe
 										std::vector<typename Container::iterator> &main,
 										std::vector<typename Container::iterator> &pend);
 		template <typename Container>
-		void    ft_merge(int &pair_size, Container& container, std::vector<typename Container::iterator> &main,
+		void		ft_merge(int &pair_size, Container& container, std::vector<typename Container::iterator> &main,
 										std::vector<typename Container::iterator> &extra);
 
 		//Othodox canonical
+		~PmergeMe() {}; // Destructor
+		PmergeMe() {}; // Default constructor
+		PmergeMe(const PmergeMe &other) : vector(other.vector), deque(other.deque) {}; // Copy constructor
+		PmergeMe operator=(const PmergeMe &other); // Copy assignment operator
 };
 
+template <typename Container>
 struct DerefLess {
-	bool operator()(const std::vector<int>::iterator &a, const std::vector<int>::iterator &b) const {
+	bool operator()(const typename Container::iterator &a, const typename Container::iterator &b) const {
 		return *a < *b;
 	}
 };
